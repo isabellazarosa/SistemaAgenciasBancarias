@@ -1,5 +1,6 @@
 from datetime import datetime
 import pytz
+from random import randint
 
 
 class ContaCorrente():
@@ -19,7 +20,7 @@ class ContaCorrente():
     cartoes: Lista de Cartões do Cliente
     """
 
-    @staticmethod  # sinalizção para a pessoa ver
+    @staticmethod  # sinalizção para a pessoa ver que é estático
     def _data_hora():
         fuso_BR = pytz.timezone('Brazil/East')
         horario_BR = datetime.now(fuso_BR)
@@ -33,7 +34,7 @@ class ContaCorrente():
         self._agencia = agencia
         self._num_conta = num_conta
         self._transacoes = []
-        self._cartoes = []
+        self.cartoes = []
 
     def consultar_saldo(self):
         print('Seu saldo atual é de R${:,.2f}'.format(self._saldo))
@@ -75,16 +76,26 @@ class ContaCorrente():
 
 class CartaoCredito:
 
+    @staticmethod  # sinalizção para a pessoa ver que é estático
+    def _data_hora():
+        fuso_BR = pytz.timezone('Brazil/East')
+        horario_BR = datetime.now(fuso_BR)
+        return horario_BR
+
     def __init__(self, titular, conta_corrente):
-        self.numero = 123  # None
+        self.numero = randint(1000000000000000, 9999999999999999)  # Número aleatório que varia entre esses dois números
         self.titular = titular
-        self.validade = None
-        self.cod_seguranca = None
-        self.limite = None
+        # Validade é data da criação mais 4 anos
+        self.validade = '{}/{}'.format(CartaoCredito._data_hora().month, CartaoCredito._data_hora().year + 4)
+        # Já que tem uns que começam com zero, então dá para usar esse truque
+        self.cod_seguranca = '{}{}{}'.format(randint(0, 9), randint(0, 9), randint(0, 9))
+        self.limite = 1000
         self.conta_corrente = conta_corrente
-        conta_corrente._cartoes.append(self)  # Adiciona o cartão à lista de cartões da conta corrente
+        conta_corrente.cartoes.append(self)  # Adiciona o cartão à lista de cartões da conta corrente
         # conta_corrente._cartoes.append(self) -- manda todas as informações do cartão para o objeto da conta corrente
         # conta_corrente._cartoes.append(self.numero) -- manda só o número do cartão para o objeto da conta corrente
+
+    # def
 
 
 # programa
@@ -118,6 +129,10 @@ conta_Isa = ContaCorrente("Isa", "999.999.999-99", 123, 11)
 
 cartao_Isa = CartaoCredito('Isa', conta_Isa)
 
-print(cartao_Isa.conta_corrente._num_conta)
+# print(cartao_Isa.conta_corrente._num_conta)
 
-print(conta_Isa._cartoes[0].numero)
+# print(conta_Isa._cartoes[0].numero)
+
+print(cartao_Isa.validade)
+print(cartao_Isa.numero)
+print(cartao_Isa.cod_seguranca)
