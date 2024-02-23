@@ -1,4 +1,5 @@
 from ContaCorrente import ContaCorrente, CartaoCredito
+from Agencia import AgenciaPremium, AgenciaComum, AgenciaVirtual
 
 # programa
 
@@ -44,3 +45,6 @@ print(cartao_Isa.senha)
 
 print(conta_Isa.__dict__)  # Esse método lista todos atributos e valores das estâncias que a classe tem
 print(cartao_Isa.__dict__)
+
+agencia_premium_especial = AgenciaPremium(7777777, 888888)
+print(agencia_premium_especial.caixa)
