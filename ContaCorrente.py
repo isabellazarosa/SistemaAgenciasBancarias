@@ -27,12 +27,12 @@ class ContaCorrente():
         return horario_BR.strftime('%d/%m/%Y %H:%M:%S')  # Método para formatar a tupla de data e hora recebida
 
     def __init__(self, nome, cpf, agencia, num_conta):
-        self._nome = nome  # underline diz que tem método para fazer todas as edições do objeto sem acessar ele direto
-        self._cpf = cpf  # Dois underline, torna inacessível fora da classe
-        self._saldo = 0
-        self._limite = None
-        self._agencia = agencia
-        self._num_conta = num_conta
+        self.nome = nome
+        self.cpf = cpf
+        self._saldo = 0  # underline diz que tem método para fazer todas as edições do objeto sem acessar ele direto
+        self._limite = None  # Dois underline, torna inacessível fora da classe
+        self.agencia = agencia
+        self.num_conta = num_conta
         self._transacoes = []
         self.cartoes = []
 
@@ -94,45 +94,18 @@ class CartaoCredito:
         conta_corrente.cartoes.append(self)  # Adiciona o cartão à lista de cartões da conta corrente
         # conta_corrente._cartoes.append(self) -- manda todas as informações do cartão para o objeto da conta corrente
         # conta_corrente._cartoes.append(self.numero) -- manda só o número do cartão para o objeto da conta corrente
+        self._senha = 1234
 
-    # def
+    # Métodos com dois underlines só podem ser acessados a partir de outros métodos
+    @property  # Para método getter
+    def senha(self):
+        return self._senha
+
+    @senha.setter  # Para método setter
+    def senha(self, valor):
+        if len(valor) == 4 and valor.isnumeric():
+            self._senha = valor
+        else:
+            print('Nova Senha Inválida')
 
 
-# programa
-
-conta_Isa = ContaCorrente("Isa", "999.999.999-99", 123, 11)
-
-# # Depositando dinheiro na conta
-# conta_Isa.depositar(10000)
-#
-# # Sacando dinheiro da conta
-# # conta_Isa.sacar(10500)
-#
-# conta_Isa.consultar_saldo()
-# conta_Isa.consultar_limite_cheque_especial()
-# # print(conta_Isa.cpf)
-#
-# print('-' * 20)
-#
-# conta_Isa.consultar_historico_transacoes()
-#
-# print('-' * 20)
-#
-# conta_Adri = ContaCorrente('Adri', '111.111.111-11', 111, 22)
-# conta_Isa.transferir(1000, conta_Adri)
-#
-# conta_Isa.consultar_saldo()
-# conta_Adri.consultar_saldo()
-#
-# conta_Isa.consultar_historico_transacoes()
-# conta_Adri.consultar_historico_transacoes()
-
-cartao_Isa = CartaoCredito('Isa', conta_Isa)
-
-# print(cartao_Isa.conta_corrente._num_conta)
-
-# print(conta_Isa._cartoes[0].numero)
-
-print(cartao_Isa.validade)
-print(cartao_Isa.numero)
-print(cartao_Isa.cod_seguranca)
